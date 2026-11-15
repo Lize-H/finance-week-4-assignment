@@ -1,0 +1,25 @@
+---
+title: "Data assignment"
+author: "Lize den Hertog"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r setup packages, include=FALSE}
+install.packages("tidyverse")
+library(tidyverse)
+```
+
+## Setup of data
+
+```{r cars}
+stocks <- read_csv("29742180.csv")
+```
+
+
+
+
