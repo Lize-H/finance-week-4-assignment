@@ -1,6 +1,6 @@
 ---
 title: "Data assignment"
-author: "Lize den Hertog"
+author: "Lize den Hertog en Tamara Bakker"
 date: "`r Sys.Date()`"
 output: html_document
 ---
@@ -14,12 +14,174 @@ install.packages("tidyverse")
 library(tidyverse)
 ```
 
-## Setup of data
+# Setup of data
 
 ```{r cars}
 stocks <- read_csv("29742180.csv")
 ```
 
+## Exercise 1: Risk, Return, and Diversification
+
+# Question 1
+Calculate daily averages and daily standard deviations for the returns of your stocks. Annualize these returns and standard deviations.
+
+``` {r}
+
+```
 
 
+## Question 2
+Now compound the daily returns into calendar-year returns and compute their average and standard deviation (hint: make a new series with daily buy-and-hold returns and extract the annualized returns from there – you should have 10 observations per stock, one for each year). Compare these with your annualized daily figures. Does it make sense that these numbers don’t match 1-to-1?
+
+``` {r}
+
+```
+
+## Question 3
+For four of your stocks, calculate the correlation in their returns. Create a correlation matrix for these four stocks.
+
+``` {r}
+
+```
+
+## Question 4
+Comment on the correlations between the returns you found. Compare a pair of stocks with high correlation to a pair of stocks with lower correlation. Does it make sense that the correlation for one pair of stocks is higher than the other?
+
+``` {r}
+
+```
+
+## Question 5
+Calculate the returns for an equally weighted portfolio for two of your selected stocks. To do this, take the average return for the pair of stocks on each day. Calculate the daily standard deviation of this portfolio and annualize it. Compare the standard deviation to the standard deviations of the underlying stocks. Explain how your answer shows the effects of diversification.
+
+``` {r}
+
+```
+
+## Question 6
+Calculate the beta for both stocks and the portfolio that you created in the previous question over the entire sample period. Do you observe diversification effects in beta? Explain why (not).
+
+``` {r}
+
+```
+
+## Question 7
+Now form a portfolio for all of your stocks. Estimate the annualized return and standard deviation of this portfolio using data up to the end of 2024. Estimate the 1-Day, 95% VaR and 1-Day 99% VaR of this portfolio as a percentage of the portfolio value using the historical data method. Also estimate Value-at-Risk for 10 days both at 95% and 99%.
+
+``` {r}
+
+```
+
+## Question 8
+Count how often the 1-Day 95% Value-at-Risk you’ve estimated above was breached in 2025. Do the same for the 1-Day 99% VaR.
+
+``` {r}
+
+```
+
+## Question 9
+Now take the annual report for any US-based bank and look at their balance sheet. Let’s do a thought experiment: Assume that instead of its regular assets, this bank had 100% of its assets invested in the 10-stock portfolio from above. Would the bank’s book equity be big enough to cover the 1-Day 95% VaR? What about the 10-Day 95% VaR, and the 10-Day 99% VaR? What does this tell you about the bank’s assets and equity?
+
+``` {r}
+
+```
+
+
+# Exercise 2: Rolling beta estimation
+
+## Question 1
+Estimate beta for one of the stocks using the last 2 years of data.
+
+``` {r}
+
+```
+
+## Question 2
+Re-estimate rolling-window betas using 2 years of returns for each of your stocks (going back 10 years in total) and put them in line graphs. This means you will have graphs with daily frequencies that span 8 years. Plot the betas at the end of the window that they are estimated in (e.g. if your beta is estimated between June 7th 2022 – June 6th 2024, plot that point at June 6th 2024).
+
+``` {r}
+
+```
+
+## Question 3 
+Out of all of these stocks, pick one stock that has big changes in beta over time and present the rolling-window betas for this one stock in a line-graph. Add vertical lines to indicate important events that have affected the beta for this stock. Be careful with sudden jumps: These are typically indicative of outliers rather than shifts in the riskiness of the company.
+
+``` {r}
+
+```
+
+## Question 4
+Explain why the events in the graph are important and how they affected beta.
+
+``` {r}
+
+```
+
+
+# Exercise 3: Event study M&A
+
+## Question 1
+In your sample of companies, select one company that performed a large merger or acquisition within your sample of 10 years. Now, you’d like this merger or acquisition to have a meaningful impact on the share price. This means that you’re either looking for a merger or acquisition that’s very large compared to the acquiring company, or for a merger or acquisition where the target is a publicly listed company, so you can analyze the impact on the target’s share price.
+
+``` {r}
+
+```
+
+## Question 2
+Estimate beta for this company until about 100 days before the merger or acquisition was announced, using an estimation window of two years of data.
+
+``` {r}
+
+```
+
+## Question 3
+Using the risk-free rate and market return around the announcement date, construct a series of expected returns based on the CAPM. You can use the return on the S&P500 as the market return, the risk-free rate can be obtained through the St. Louis FRED database (for an example, check the lecture slides).
+
+``` {r}
+
+```
+
+## Question 4
+Subtract the expected return from the actual return of the stock. You now have a series of abnormal returns (AR). Construct a series of cumulative abnormal returns (CAR) starting 20 days before the announcement and ending 20 days after the announcement by taking the cumulative values of the abnormal returns. Put the CARs in a graph. What do you see? Can you explain this pattern? If the target is a public company, also estimate the target’s CARs and put them in a graph.
+
+``` {r}
+
+```
+
+## Question 5
+Now look up the date that the merger or acquisition was completed and perform the steps above around that date as well (so: calculate the CAR and put it in a graph). What do you see? What’s the difference with the pattern on announcement? Can you explain this difference?
+
+``` {r}
+
+```
+
+# Exercise 4: Efficient frontier
+
+## Question 1
+Make a graph with the annualized returns on the vertical axis and the annualized volatilities on the horizontal axis.
+
+``` {r}
+
+```
+
+## Question 2
+Select two of your stocks and estimate an efficient frontier based on portfolios of these two stocks. Assume short-selling is allowed. Show the efficient frontier in the graph (including the inefficient part of the efficient frontier, which is the lower part). Check the slides or the Berk&DeMarzo book for an example of what an efficient frontier looks like.
+
+``` {r}
+
+```
+
+## Question 3
+Now take the stocks from the previous question and add a third stock. Estimate an efficient frontier based on portfolios of these three stocks. Show the efficient frontier in the same graph. You will need the Solver function in Excel to solve this exercise.
+
+``` {r}
+
+```
+
+## Question 4
+Draw the Capital Market Line based off the 3-stock efficient frontier through the point with the highest Sharpe ratio. Compare this Sharpe ratio to the highest Sharpe ratio of the two-stocks portfolios and the Sharpe ratio of the individual shares. Explain why the Sharpe ratio of the 3 stock portfolio is the highest.
+
+``` {r}
+
+```
 
