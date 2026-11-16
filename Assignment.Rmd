@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r setup packages, include=FALSE}
-install.packages("tidyverse")
+#install.packages("tidyverse")
 library(tidyverse)
 ```
 
@@ -26,7 +26,8 @@ stocks <- read_csv("29742180.csv")
 Calculate daily averages and daily standard deviations for the returns of your stocks. Annualize these returns and standard deviations.
 
 ``` {r}
-
+summary_stocks <- stocks %>% group_by(Ticker) %>% summarise(daily_mean = mean(DlyRet, na.rm = TRUE), daily_sd = sd(DlyRet, na.rm = TRUE))
+summary_stocks <- summary_stocks %>% mutate(annual_return = (1+daily_mean)^252-1, annual_variance = daily_sd/sqrt(252))
 ```
 
 
@@ -41,22 +42,27 @@ Now compound the daily returns into calendar-year returns and compute their aver
 For four of your stocks, calculate the correlation in their returns. Create a correlation matrix for these four stocks.
 
 ``` {r}
-
+wide_returns <- stocks %>% filter(Ticker %in% c("AAPL", "MSFT", "GOOGL", "AMZN", "XOM", "FB", "TSLA", "NVDA", "V", "BRK.B")) %>%
+  select(DlyCalDt, Ticker, DlyRet) %>%
+  pivot_wider(names_from = Ticker, values_from = DlyRet)
+cor_matrix <- cor(wide_returns[,-1], use = "pairwise.complete.obs")
 ```
 
 ## Question 4
 Comment on the correlations between the returns you found. Compare a pair of stocks with high correlation to a pair of stocks with lower correlation. Does it make sense that the correlation for one pair of stocks is higher than the other?
 
-``` {r}
-
-```
+Initially, not really a lot of variation, so I added some more of them. The correlation between Tesla and Exxonmobil is low, with 0.15, while the correlation between Google and Microsoft is higher, with 0.70. This is logical, because Exxonmobil is a fuel company, while Tesla is an electric car company, so those do not have a lot of connection with each other, causing a low correlation, while Google and Microsoft operate the same industry, so it is logical that they tend to move together more
 
 ## Question 5
 Calculate the returns for an equally weighted portfolio for two of your selected stocks. To do this, take the average return for the pair of stocks on each day. Calculate the daily standard deviation of this portfolio and annualize it. Compare the standard deviation to the standard deviations of the underlying stocks. Explain how your answer shows the effects of diversification.
 
 ``` {r}
-
+portfolio <- wide_returns %>% select(DlyCalDt, AAPL, MSFT) %>% na.omit() %>% mutate(port_return = 0.5*AAPL + 0.5*MSFT)
+port_mean <- mean(portfolio$port_return)
+port_sd <- sd(portfolio$port_return)
 ```
+
+The average daily return is 0.0011, or 0.11% and the daily volatility is 1.61%, while the daily volatily of Apple is 1.83% and for Microsoft 1.69%, so it has become lower than both. This is because of diversification, since the correlation between the two is not +1 (0.677), causing them to hedge each other, reducing the volatility of the portfolio
 
 ## Question 6
 Calculate the beta for both stocks and the portfolio that you created in the previous question over the entire sample period. Do you observe diversification effects in beta? Explain why (not).
@@ -66,7 +72,7 @@ Calculate the beta for both stocks and the portfolio that you created in the pre
 ```
 
 ## Question 7
-Now form a portfolio for all of your stocks. Estimate the annualized return and standard deviation of this portfolio using data up to the end of 2024. Estimate the 1-Day, 95% VaR and 1-Day 99% VaR of this portfolio as a percentage of the portfolio value using the historical data method. Also estimate Value-at-Risk for 10 days both at 95% and 99%.
+Now form a portfolio for all of your stocks. Estimate the annualized return and standard deviation of this portfolio using data up to the end of 2024. Estimate the 1-Day, 95% VaR and 1-Day 99% VaR of this portfolio as a percentage of the portfolio value using the normal distribution method. Also estimate Value-at-Risk for 10 days both at 95% and 99%.
 
 ``` {r}
 
